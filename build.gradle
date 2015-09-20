@@ -1,3 +1,6 @@
+import java.lang.management.ManagementFactory
+import java.lang.management.RuntimeMXBean
+
 /*
  * Copyright (c) 2011-2013 the original author or authors.
  *
@@ -120,6 +123,11 @@ configure(allprojects) { project ->
 		systemProperty("java.awt.headless", "true")
 		systemProperty("testGroups", project.properties.get("testGroups"))
 		scanForTestClasses = false
+
+		beforeTest {
+			d -> System.err.println("${d} - ${ManagementFactory.getRuntimeMXBean().getName()}")
+		}
+
 		include '**/*Tests.*'
 		include '**/*Spec.*'
 		exclude '**/*Abstract*.*'
@@ -346,6 +354,16 @@ project('reactor-net') {
 		testRuntime project(':reactor-logback'),
 				"org.slf4j:jcl-over-slf4j:$slf4jVersion"
 	}
+
+/*
+	test {
+		forkEvery = 1
+
+		beforeTest {
+			d -> System.err.println(d)
+		}
+	}
+*/
 
 	jar {
 		manifest {

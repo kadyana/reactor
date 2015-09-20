@@ -347,6 +347,14 @@ project('reactor-net') {
 				"org.slf4j:jcl-over-slf4j:$slf4jVersion"
 	}
 
+	test {
+		forkEvery = 1
+
+		beforeTest {
+			d -> System.err.println(d)
+		}
+	}
+
 	jar {
 		manifest {
 			instruction 'Import-Package', bundleImportPackages.join(',')
